@@ -1,14 +1,25 @@
-const Transaction = require('../models/Transaction');
-const Budget = require('../models/Budget');
-const { startOfDay, endOfDay, startOfMonth, endOfMonth, subMonths, subDays } = require('date-fns');
+const Transaction = require("../models/Transaction");
+const Budget = require("../models/Budget");
+const mongoose = require("mongoose");
+const {
+  startOfDay,
+  endOfDay,
+  startOfMonth,
+  endOfMonth,
+  subMonths,
+  subDays,
+} = require("date-fns");
 
 // Create a new transaction
 const createTransaction = async (req, res) => {
   try {
     const { userId, type, amount, category, note, date } = req.body;
 
+    // Convert userId string to ObjectId
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
     const transaction = await Transaction.create({
-      userId,
+      userId: userObjectId,
       type,
       amount,
       category,
@@ -17,12 +28,12 @@ const createTransaction = async (req, res) => {
     });
 
     // Update budget if it's an expense
-    if (type === 'expense') {
+    if (type === "expense") {
       const month = new Date(date || new Date()).toISOString().slice(0, 7);
       await Budget.findOneAndUpdate(
-        { userId, month },
+        { userId: userObjectId, month },
         { $inc: { spent: amount } },
-        { upsert: true, new: true }
+        { upsert: true, new: true },
       );
     }
 
@@ -58,8 +69,8 @@ const getTransactions = async (req, res) => {
 
     if (search) {
       query.$or = [
-        { note: { $regex: search, $options: 'i' } },
-        { category: { $regex: search, $options: 'i' } },
+        { note: { $regex: search, $options: "i" } },
+        { category: { $regex: search, $options: "i" } },
       ];
     }
 
@@ -87,34 +98,40 @@ const updateTransaction = async (req, res) => {
     if (!oldTransaction) {
       return res.status(404).json({
         success: false,
-        message: 'Transaction not found',
+        message: "Transaction not found",
       });
     }
 
     // Update budget if expense amount changed
-    if (oldTransaction.type === 'expense' && type !== 'income') {
+    if (oldTransaction.type === "expense" && type !== "income") {
       const oldMonth = new Date(oldTransaction.date).toISOString().slice(0, 7);
       const oldAmount = oldTransaction.amount;
-      
+
       await Budget.findOneAndUpdate(
         { userId: oldTransaction.userId, month: oldMonth },
-        { $inc: { spent: -oldAmount } }
+        { $inc: { spent: -oldAmount } },
       );
     }
 
-    if (type === 'expense') {
+    if (type === "expense") {
       const newMonth = new Date(date || new Date()).toISOString().slice(0, 7);
       await Budget.findOneAndUpdate(
         { userId: oldTransaction.userId, month: newMonth },
         { $inc: { spent: amount } },
-        { upsert: true, new: true }
+        { upsert: true, new: true },
       );
     }
 
     const transaction = await Transaction.findByIdAndUpdate(
       id,
-      { type, amount, category, note, date: date ? new Date(date) : new Date() },
-      { new: true }
+      {
+        type,
+        amount,
+        category,
+        note,
+        date: date ? new Date(date) : new Date(),
+      },
+      { new: true },
     );
 
     res.json({
@@ -138,16 +155,16 @@ const deleteTransaction = async (req, res) => {
     if (!transaction) {
       return res.status(404).json({
         success: false,
-        message: 'Transaction not found',
+        message: "Transaction not found",
       });
     }
 
     // Update budget if it's an expense
-    if (transaction.type === 'expense') {
+    if (transaction.type === "expense") {
       const month = new Date(transaction.date).toISOString().slice(0, 7);
       await Budget.findOneAndUpdate(
         { userId: transaction.userId, month },
-        { $inc: { spent: -transaction.amount } }
+        { $inc: { spent: -transaction.amount } },
       );
     }
 
@@ -155,7 +172,7 @@ const deleteTransaction = async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Transaction deleted successfully',
+      message: "Transaction deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
@@ -174,7 +191,7 @@ const getAnalytics = async (req, res) => {
     let startDate, endDate;
     const now = new Date();
 
-    if (period === 'week') {
+    if (period === "week") {
       startDate = startOfDay(subDays(now, 6));
       endDate = endOfDay(now);
     } else {
@@ -188,11 +205,11 @@ const getAnalytics = async (req, res) => {
     });
 
     const totalIncome = transactions
-      .filter(t => t.type === 'income')
+      .filter((t) => t.type === "income")
       .reduce((sum, t) => sum + t.amount, 0);
 
     const totalExpenses = transactions
-      .filter(t => t.type === 'expense')
+      .filter((t) => t.type === "expense")
       .reduce((sum, t) => sum + t.amount, 0);
 
     const balance = totalIncome - totalExpenses;
@@ -200,26 +217,30 @@ const getAnalytics = async (req, res) => {
     // Category-wise distribution
     const categoryDistribution = {};
     transactions
-      .filter(t => t.type === 'expense')
-      .forEach(t => {
-        categoryDistribution[t.category] = (categoryDistribution[t.category] || 0) + t.amount;
+      .filter((t) => t.type === "expense")
+      .forEach((t) => {
+        categoryDistribution[t.category] =
+          (categoryDistribution[t.category] || 0) + t.amount;
       });
 
     // Spending over time
     const spendingOverTime = [];
-    for (let i = 0; i < (period === 'week' ? 7 : 30); i++) {
-      const date = period === 'week' 
-        ? startOfDay(subDays(now, 6 - i))
-        : startOfDay(subDays(now, 29 - i));
-      
+    for (let i = 0; i < (period === "week" ? 7 : 30); i++) {
+      const date =
+        period === "week"
+          ? startOfDay(subDays(now, 6 - i))
+          : startOfDay(subDays(now, 29 - i));
+
       const endOfDate = endOfDay(date);
-      
+
       const dailyExpenses = transactions
-        .filter(t => t.type === 'expense' && t.date >= date && t.date <= endOfDate)
+        .filter(
+          (t) => t.type === "expense" && t.date >= date && t.date <= endOfDate,
+        )
         .reduce((sum, t) => sum + t.amount, 0);
 
       spendingOverTime.push({
-        date: date.toISOString().split('T')[0],
+        date: date.toISOString().split("T")[0],
         amount: dailyExpenses,
       });
     }
@@ -228,29 +249,37 @@ const getAnalytics = async (req, res) => {
     const insights = [];
     const previousMonthStart = startOfMonth(subMonths(now, 1));
     const previousMonthEnd = endOfMonth(subMonths(now, 1));
-    
+
     const previousTransactions = await Transaction.find({
       userId,
       date: { $gte: previousMonthStart, $lte: previousMonthEnd },
     });
 
     const previousExpenses = previousTransactions
-      .filter(t => t.type === 'expense')
+      .filter((t) => t.type === "expense")
       .reduce((sum, t) => sum + t.amount, 0);
 
     if (totalExpenses > previousExpenses * 1.2) {
-      insights.push('⚠️ Your expenses have increased significantly compared to last month.');
+      insights.push(
+        "⚠️ Your expenses have increased significantly compared to last month.",
+      );
     }
 
-    const foodExpense = categoryDistribution['Food'] || 0;
+    const foodExpense = categoryDistribution["Food"] || 0;
     if (foodExpense > totalExpenses * 0.3) {
-      insights.push('🍔 You are spending more than 30% on food. Consider cooking at home more often.');
+      insights.push(
+        "🍔 You are spending more than 30% on food. Consider cooking at home more often.",
+      );
     }
 
     if (balance < 0) {
-      insights.push('📉 You are spending more than you earn. Review your expenses.');
+      insights.push(
+        "📉 You are spending more than you earn. Review your expenses.",
+      );
     } else if (balance > totalIncome * 0.2) {
-      insights.push('💰 Great job! You are saving more than 20% of your income.');
+      insights.push(
+        "💰 Great job! You are saving more than 20% of your income.",
+      );
     }
 
     res.json({
@@ -287,11 +316,11 @@ const getDashboard = async (req, res) => {
     });
 
     const totalIncome = transactions
-      .filter(t => t.type === 'income')
+      .filter((t) => t.type === "income")
       .reduce((sum, t) => sum + t.amount, 0);
 
     const totalExpenses = transactions
-      .filter(t => t.type === 'expense')
+      .filter((t) => t.type === "expense")
       .reduce((sum, t) => sum + t.amount, 0);
 
     const balance = totalIncome - totalExpenses;
