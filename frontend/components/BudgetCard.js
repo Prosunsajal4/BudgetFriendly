@@ -1,11 +1,12 @@
-import { Target, AlertTriangle, CheckCircle } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { api } from '../services/api';
+import { Target, AlertTriangle, CheckCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { api } from "../services/api";
+import toast from "react-hot-toast";
 
 export default function BudgetCard({ userId }) {
   const [budget, setBudget] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [monthlyBudget, setMonthlyBudget] = useState('');
+  const [monthlyBudget, setMonthlyBudget] = useState("");
 
   useEffect(() => {
     fetchBudget();
@@ -20,14 +21,14 @@ export default function BudgetCard({ userId }) {
         setMonthlyBudget(response.data.monthlyBudget.toString());
       }
     } catch (error) {
-      console.error('Failed to fetch budget');
+      console.error("Failed to fetch budget");
     }
   };
 
   const handleSetBudget = async (e) => {
     e.preventDefault();
     const month = new Date().toISOString().slice(0, 7);
-    
+
     try {
       const response = await api.setBudget({
         userId,
@@ -36,12 +37,12 @@ export default function BudgetCard({ userId }) {
       });
 
       if (response.success) {
-        toast.success('Budget set successfully!');
+        toast.success("Budget set successfully!");
         setShowForm(false);
         fetchBudget();
       }
     } catch (error) {
-      toast.error('Failed to set budget');
+      toast.error("Failed to set budget");
     }
   };
 
@@ -54,11 +55,10 @@ export default function BudgetCard({ userId }) {
       <div className="card p-6">
         <div className="text-center">
           <Target className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-600 dark:text-gray-400 mb-4">Set your monthly budget</p>
-          <button
-            onClick={() => setShowForm(true)}
-            className="btn-primary"
-          >
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            Set your monthly budget
+          </p>
+          <button onClick={() => setShowForm(true)} className="btn-primary">
             Set Budget
           </button>
         </div>
@@ -69,7 +69,9 @@ export default function BudgetCard({ userId }) {
   if (showForm) {
     return (
       <div className="card p-6">
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Set Monthly Budget</h3>
+        <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
+          Set Monthly Budget
+        </h3>
         <form onSubmit={handleSetBudget} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -85,7 +87,9 @@ export default function BudgetCard({ userId }) {
             />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="btn-primary flex-1">Save</button>
+            <button type="submit" className="btn-primary flex-1">
+              Save
+            </button>
             <button
               type="button"
               onClick={() => setShowForm(false)}
@@ -116,7 +120,9 @@ export default function BudgetCard({ userId }) {
 
       <div className="mb-4">
         <div className="flex justify-between mb-2">
-          <span className="text-sm text-gray-600 dark:text-gray-400">Spent</span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            Spent
+          </span>
           <span className="text-sm font-medium text-gray-900 dark:text-white">
             ${budget.spent.toFixed(2)} / ${budget.monthlyBudget.toFixed(2)}
           </span>
@@ -124,7 +130,11 @@ export default function BudgetCard({ userId }) {
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
           <div
             className={`h-full transition-all duration-500 rounded-full ${
-              isOverBudget ? 'bg-red-500' : isNearLimit ? 'bg-yellow-500' : 'bg-green-500'
+              isOverBudget
+                ? "bg-red-500"
+                : isNearLimit
+                  ? "bg-yellow-500"
+                  : "bg-green-500"
             }`}
             style={{ width: `${Math.min(percentageUsed, 100)}%` }}
           />
@@ -135,10 +145,16 @@ export default function BudgetCard({ userId }) {
       </div>
 
       <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-        <span className="text-sm text-gray-600 dark:text-gray-400">Remaining</span>
-        <span className={`text-lg font-bold ${
-          budget.remaining >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-        }`}>
+        <span className="text-sm text-gray-600 dark:text-gray-400">
+          Remaining
+        </span>
+        <span
+          className={`text-lg font-bold ${
+            budget.remaining >= 0
+              ? "text-green-600 dark:text-green-400"
+              : "text-red-600 dark:text-red-400"
+          }`}
+        >
           ${budget.remaining.toFixed(2)}
         </span>
       </div>
@@ -147,7 +163,8 @@ export default function BudgetCard({ userId }) {
         <div className="mt-4 flex items-start gap-2 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
           <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
           <p className="text-sm text-red-700 dark:text-red-300">
-            You've exceeded your budget by ${Math.abs(budget.remaining).toFixed(2)}!
+            You've exceeded your budget by $
+            {Math.abs(budget.remaining).toFixed(2)}!
           </p>
         </div>
       )}
