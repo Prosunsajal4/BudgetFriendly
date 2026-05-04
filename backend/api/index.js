@@ -1,11 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./config/database");
+const connectDB = require("../config/database");
 
-const transactionRoutes = require("./routes/transactionRoutes");
-const budgetRoutes = require("./routes/budgetRoutes");
-const userRoutes = require("./routes/userRoutes");
+const transactionRoutes = require("../routes/transactionRoutes");
+const budgetRoutes = require("../routes/budgetRoutes");
+const userRoutes = require("../routes/userRoutes");
 
 const app = express();
 
@@ -36,14 +36,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
-
-// For local development
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
-
-// Export for Vercel serverless
 module.exports = app;
