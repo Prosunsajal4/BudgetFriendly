@@ -3,6 +3,8 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
 import { api } from "../services/api";
 import toast from "react-hot-toast";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import TransactionList from "../components/TransactionList";
 import LoadingSkeleton from "../components/LoadingSkeleton";
 
