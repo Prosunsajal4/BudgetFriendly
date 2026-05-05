@@ -47,21 +47,21 @@ export default function Analytics() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
             onClick={() => router.push("/")}
-            className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            className="p-3 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-600"
           >
             <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
           </button>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-4xl font-bold gradient-text">
               Analytics Dashboard
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-gray-600 dark:text-gray-400 mt-2 font-medium">
               Track your spending habits
             </p>
           </div>
@@ -73,15 +73,15 @@ export default function Analytics() {
       </div>
 
       {/* Time Range Selector */}
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         {["week", "month"].map((p) => (
           <button
             key={p}
             onClick={() => handlePeriodChange(p)}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
+            className={`px-6 py-3 rounded-xl font-bold transition-all duration-300 capitalize shadow-md hover:shadow-lg transform hover:scale-105 ${
               period === p
-                ? "bg-primary-600 text-white"
-                : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/30"
+                : "bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600"
             }`}
           >
             {p}
@@ -92,27 +92,30 @@ export default function Analytics() {
       {/* Summary Stats */}
       {analytics && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="card p-6">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="card p-6 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
               Total Balance
             </p>
-            <p className="text-3xl font-bold text-gray-900 dark:text-white mt-1">
+            <p className="text-4xl font-bold mt-2 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               ${analytics.balance.toFixed(2)}
             </p>
           </div>
-          <div className="card p-6">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="card p-6 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
               Total Income
             </p>
-            <p className="text-3xl font-bold text-green-600 dark:text-green-400 mt-1">
+            <p className="text-4xl font-bold mt-2 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               ${analytics.totalIncome.toFixed(2)}
             </p>
           </div>
-          <div className="card p-6">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+          <div className="card p-6 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <p className="text-sm font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">
               Total Expenses
             </p>
-            <p className="text-3xl font-bold text-red-600 dark:text-red-400 mt-1">
+            <p className="text-4xl font-bold mt-2 bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">
               ${analytics.totalExpenses.toFixed(2)}
             </p>
           </div>

@@ -52,10 +52,12 @@ export default function BudgetCard({ userId }) {
 
   if (!budget && !showForm) {
     return (
-      <div className="card p-6">
+      <div className="card p-8">
         <div className="text-center">
-          <Target className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <div className="p-4 rounded-full bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 inline-block mb-4">
+            <Target className="w-12 h-12 text-purple-600 dark:text-purple-400" />
+          </div>
+          <p className="text-gray-600 dark:text-gray-400 mb-6 font-medium">
             Set your monthly budget
           </p>
           <button onClick={() => setShowForm(true)} className="btn-primary">
@@ -105,54 +107,56 @@ export default function BudgetCard({ userId }) {
 
   return (
     <div className="card p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-          <Target className="w-5 h-5 text-primary-500" />
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500">
+            <Target className="w-5 h-5 text-white" />
+          </div>
           Monthly Budget
         </h3>
         <button
           onClick={() => setShowForm(true)}
-          className="text-sm text-primary-600 hover:text-primary-700 dark:text-primary-400"
+          className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 font-medium hover:underline transition-all"
         >
           Edit
         </button>
       </div>
 
-      <div className="mb-4">
-        <div className="flex justify-between mb-2">
-          <span className="text-sm text-gray-600 dark:text-gray-400">
+      <div className="mb-6">
+        <div className="flex justify-between mb-3">
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
             Spent
           </span>
-          <span className="text-sm font-medium text-gray-900 dark:text-white">
+          <span className="text-sm font-bold text-gray-900 dark:text-white">
             ${budget.spent.toFixed(2)} / ${budget.monthlyBudget.toFixed(2)}
           </span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
           <div
-            className={`h-full transition-all duration-500 rounded-full ${
+            className={`h-full transition-all duration-700 ease-out rounded-full ${
               isOverBudget
-                ? "bg-red-500"
+                ? "bg-gradient-to-r from-red-500 to-pink-500"
                 : isNearLimit
-                  ? "bg-yellow-500"
-                  : "bg-green-500"
+                  ? "bg-gradient-to-r from-yellow-500 to-orange-500"
+                  : "bg-gradient-to-r from-emerald-500 to-teal-500"
             }`}
             style={{ width: `${Math.min(percentageUsed, 100)}%` }}
           />
         </div>
-        <p className="text-right text-sm mt-1 font-medium">
+        <p className="text-right text-sm mt-2 font-bold bg-gradient-to-r from-gray-700 to-gray-900 dark:from-gray-300 dark:to-gray-100 bg-clip-text text-transparent">
           {percentageUsed.toFixed(1)}%
         </p>
       </div>
 
-      <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-        <span className="text-sm text-gray-600 dark:text-gray-400">
+      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-600">
+        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
           Remaining
         </span>
         <span
-          className={`text-lg font-bold ${
+          className={`text-2xl font-bold ${
             budget.remaining >= 0
-              ? "text-green-600 dark:text-green-400"
-              : "text-red-600 dark:text-red-400"
+              ? "bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent"
+              : "bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent"
           }`}
         >
           ${budget.remaining.toFixed(2)}
@@ -160,9 +164,11 @@ export default function BudgetCard({ userId }) {
       </div>
 
       {isOverBudget && (
-        <div className="mt-4 flex items-start gap-2 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
-          <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-red-700 dark:text-red-300">
+        <div className="mt-6 flex items-start gap-3 p-4 bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-xl border border-red-200 dark:border-red-800/50">
+          <div className="p-2 rounded-xl bg-gradient-to-br from-red-500 to-pink-500 flex-shrink-0">
+            <AlertTriangle className="w-5 h-5 text-white" />
+          </div>
+          <p className="text-sm font-medium text-red-700 dark:text-red-300">
             You've exceeded your budget by $
             {Math.abs(budget.remaining).toFixed(2)}!
           </p>
@@ -170,18 +176,22 @@ export default function BudgetCard({ userId }) {
       )}
 
       {isNearLimit && !isOverBudget && (
-        <div className="mt-4 flex items-start gap-2 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-          <AlertTriangle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-yellow-700 dark:text-yellow-300">
+        <div className="mt-6 flex items-start gap-3 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl border border-yellow-200 dark:border-yellow-800/50">
+          <div className="p-2 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex-shrink-0">
+            <AlertTriangle className="w-5 h-5 text-white" />
+          </div>
+          <p className="text-sm font-medium text-yellow-700 dark:text-yellow-300">
             You've used {percentageUsed.toFixed(0)}% of your budget.
           </p>
         </div>
       )}
 
       {percentageUsed < 80 && budget.remaining >= 0 && (
-        <div className="mt-4 flex items-start gap-2 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-green-700 dark:text-green-300">
+        <div className="mt-6 flex items-start gap-3 p-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800/50">
+          <div className="p-2 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex-shrink-0">
+            <CheckCircle className="w-5 h-5 text-white" />
+          </div>
+          <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">
             You're on track with your budget!
           </p>
         </div>

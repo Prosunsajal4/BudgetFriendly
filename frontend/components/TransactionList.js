@@ -43,8 +43,15 @@ export default function TransactionList({
 
   if (!transactions || transactions.length === 0) {
     return (
-      <div className="card p-8 text-center text-gray-500 dark:text-gray-400">
-        No transactions yet. Add your first transaction!
+      <div className="card p-12 text-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="p-4 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30">
+            <ArrowDown className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+          </div>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">
+            No transactions yet. Add your first transaction!
+          </p>
+        </div>
       </div>
     );
   }
@@ -54,29 +61,29 @@ export default function TransactionList({
       {transactions.map((transaction) => (
         <div
           key={transaction._id}
-          className="card p-4 hover:shadow-md transition-shadow"
+          className="card p-4 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <div
-                className={`p-2 rounded-full ${
+                className={`p-3 rounded-2xl shadow-md transform group-hover:scale-110 transition-transform duration-300 ${
                   transaction.type === "income"
-                    ? "bg-green-100 dark:bg-green-900/30"
-                    : "bg-red-100 dark:bg-red-900/30"
+                    ? "bg-gradient-to-br from-emerald-400 to-teal-500"
+                    : "bg-gradient-to-br from-red-400 to-pink-500"
                 }`}
               >
                 {transaction.type === "income" ? (
-                  <ArrowUp className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  <ArrowUp className="w-5 h-5 text-white" />
                 ) : (
-                  <ArrowDown className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  <ArrowDown className="w-5 h-5 text-white" />
                 )}
               </div>
               <div>
-                <p className="font-medium text-gray-900 dark:text-white">
+                <p className="font-semibold text-gray-900 dark:text-white">
                   {transaction.category}
                 </p>
                 {transaction.note && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
                     {transaction.note}
                   </p>
                 )}
@@ -85,27 +92,27 @@ export default function TransactionList({
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <p
-                className={`text-lg font-semibold ${
+                className={`text-xl font-bold ${
                   transaction.type === "income"
-                    ? "text-green-600 dark:text-green-400"
+                    ? "text-emerald-600 dark:text-emerald-400"
                     : "text-red-600 dark:text-red-400"
                 }`}
               >
                 {transaction.type === "income" ? "+" : "-"}$
                 {transaction.amount.toFixed(2)}
               </p>
-              <div className="flex gap-1">
+              <div className="flex gap-2">
                 <button
                   onClick={() => onEdit && onEdit(transaction)}
-                  className="p-2 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors"
+                  className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 dark:text-gray-400 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110"
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleDeleteClick(transaction._id)}
-                  className="p-2 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 transition-colors"
+                  className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:text-gray-400 dark:hover:text-red-400 transition-all duration-300 hover:scale-110"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

@@ -159,14 +159,12 @@ export default function Home() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Dashboard
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <h2 className="text-4xl font-bold gradient-text">Dashboard</h2>
+          <p className="text-gray-600 dark:text-gray-400 mt-2 font-medium">
             {new Date().toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -255,12 +253,18 @@ export default function Home() {
       </div>
 
       {/* Navigation Links */}
-      <div className="flex gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
-        <a href="/analytics" className="btn-secondary flex items-center gap-2">
+      <div className="flex gap-4 pt-8 border-t border-gray-200/50 dark:border-gray-700/50">
+        <a
+          href="/analytics"
+          className="btn-primary flex items-center gap-2 flex-1 justify-center"
+        >
           <BarChart3 className="w-4 h-4" />
           View Analytics
         </a>
-        <a href="/history" className="btn-secondary flex items-center gap-2">
+        <a
+          href="/history"
+          className="btn-primary flex items-center gap-2 flex-1 justify-center"
+        >
           <History className="w-4 h-4" />
           View History
         </a>
