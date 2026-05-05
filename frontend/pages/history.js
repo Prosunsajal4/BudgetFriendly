@@ -42,35 +42,47 @@ export default function History() {
   };
 
   if (loading) {
-    return <LoadingSkeleton />;
+    return (
+      <>
+        <Navbar />
+        <div className="pt-20 pb-8">
+          <LoadingSkeleton />
+        </div>
+        <Footer />
+      </>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => router.push("/")}
-          className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-        </button>
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Transaction History
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
-            View all your past transactions
-          </p>
+    <>
+      <Navbar />
+      <div className="min-h-screen pt-20 pb-8 space-y-8">
+        {/* Header */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => router.push("/")}
+            className="p-3 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-600"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+          </button>
+          <div>
+            <h2 className="text-4xl font-bold gradient-text">
+              Transaction History
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mt-2 font-medium">
+              View all your past transactions
+            </p>
+          </div>
         </div>
-      </div>
 
-      {/* History */}
-      <TransactionList
-        transactions={transactions}
-        userId={userId}
-        onDelete={handleDelete}
-      />
-    </div>
+        {/* History */}
+        <TransactionList
+          transactions={transactions}
+          userId={userId}
+          onDelete={handleDelete}
+        />
+      </div>
+      <Footer />
+    </>
   );
 }
