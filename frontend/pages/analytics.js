@@ -85,7 +85,7 @@ export default function Analytics() {
         </div>
 
         {/* Time Range Selector */}
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           {["week", "month"].map((p) => (
             <button
               key={p}

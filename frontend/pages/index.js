@@ -269,17 +269,17 @@ export default function Home() {
         </div>
 
         {/* Navigation Links */}
-        <div className="flex gap-4 pt-8 border-t border-gray-200/50 dark:border-gray-700/50">
+        <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-gray-200/50 dark:border-gray-700/50">
           <a
             href="/analytics"
-            className="btn-primary flex items-center gap-2 flex-1 justify-center"
+            className="btn-primary flex items-center gap-2 justify-center"
           >
             <BarChart3 className="w-4 h-4" />
             View Analytics
           </a>
           <a
             href="/history"
-            className="btn-primary flex items-center gap-2 flex-1 justify-center"
+            className="btn-primary flex items-center gap-2 justify-center"
           >
             <History className="w-4 h-4" />
             View History
