@@ -1,20 +1,37 @@
-import { Wallet, BarChart3, History, LogOut, User } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import {
+  Wallet,
+  BarChart3,
+  History,
+  LogOut,
+  User,
+  Menu,
+  X,
+  Moon,
+  Sun,
+  Bell,
+  ChevronDown,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useTheme } from "../hooks/useTheme";
 
 export default function Navbar() {
   const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const currentPath = router.pathname;
 
   const handleLogout = () => {
-    localStorage.removeItem('userId');
-    router.push('/');
+    localStorage.removeItem("userId");
+    router.push("/");
   };
 
   const navItems = [
-    { name: 'Dashboard', href: '/', icon: Wallet },
-    { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-    { name: 'History', href: '/history', icon: History },
+    { name: "Dashboard", href: "/", icon: Wallet },
+    { name: "Analytics", href: "/analytics", icon: BarChart3 },
+    { name: "History", href: "/history", icon: History },
   ];
 
   return (
@@ -31,8 +48,8 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Navigation Links */}
-          <div className="flex items-center gap-1">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentPath === item.href;
@@ -42,31 +59,107 @@ export default function Navbar() {
                   href={item.href}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                     isActive
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 hover:text-blue-600 dark:hover:text-blue-400'
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
+                      : "text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 hover:text-blue-600 dark:hover:text-blue-400"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{item.name}</span>
+                  <span>{item.name}</span>
                 </Link>
               );
             })}
           </div>
 
-          {/* User Actions */}
+          {/* Right Actions */}
           <div className="flex items-center gap-2">
-            <button className="p-2 rounded-xl bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200 dark:border-gray-600">
-              <User className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-            </button>
+            {/* Theme Toggle */}
             <button
-              onClick={handleLogout}
-              className="p-2 rounded-xl bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all duration-300 border border-red-200 dark:border-red-800/50"
-              title="Logout"
+              onClick={toggleTheme}
+              className="p-2 rounded-xl bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200 dark:border-gray-600"
+              title="Toggle Theme"
             >
-              <LogOut className="w-5 h-5 text-red-600 dark:text-red-400" />
+              {theme === "dark" ? (
+                <Sun className="w-5 h-5 text-yellow-500" />
+              ) : (
+                <Moon className="w-5 h-5 text-gray-600" />
+              )}
+            </button>
+
+            {/* Notifications */}
+            <button className="p-2 rounded-xl bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200 dark:border-gray-600 relative">
+              <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+
+            {/* Profile Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="p-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white transition-all duration-300 flex items-center gap-2"
+              >
+                <User className="w-5 h-5" />
+                <ChevronDown className="w-4 h-4" />
+              </button>
+
+              {profileOpen && (
+                <div className="absolute right-0 mt-2 w-48 card py-2 shadow-2xl">
+                  <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      My Account
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      user@example.com
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-xl bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200 dark:border-gray-600"
+            >
+              {mobileMenuOpen ? (
+                <X className="w-5 h-5" />
+              ) : (
+                <Menu className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+              )}
             </button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 space-y-2 border-t border-gray-200 dark:border-gray-700">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPath === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                    isActive
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
+                      : "text-gray-600 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50"
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </nav>
   );
