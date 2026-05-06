@@ -1,34 +1,38 @@
-# � Personal Finance Tracker SaaS
+# Personal Finance Tracker
 
-A production-level Personal Finance Tracker application with advanced features, built with Next.js (frontend), Express.js (backend), and MongoDB.
+A modern, production-level Personal Finance Tracker application with advanced features, built with Next.js (frontend), Express.js (backend), and MongoDB.
 
 ## ✨ Features
 
-### � Income & Expense Tracking
+### 💰 Income & Expense Tracking
 
 - Add transactions with amount, category, note, and date
 - Track income and expenses separately
 - Automatic balance calculation
+- Edit and delete transactions
 
 ### 📊 Smart Dashboard
 
-- Total balance overview
+- Total balance overview with gradient styling
 - Total income and expense summaries
-- Visual balance cards with emoji indicators
+- Visual balance cards with modern icons
+- Real-time data refresh
 
-### � Analytics Dashboard
+### 📈 Analytics Dashboard
 
 - Spending over time visualization (bar chart)
 - Category-wise distribution (pie chart)
 - Smart insights based on spending patterns
 - Weekly and monthly views
+- Summary statistics cards
 
-### ⚠️ Budget System
+### 💵 Budget System
 
 - Set monthly budget limits
 - Real-time budget tracking
-- Percentage usage display
+- Percentage usage display with gradient progress bar
 - Alerts when approaching or exceeding budget
+- Visual budget status indicators
 
 ### 🤖 Smart Insights
 
@@ -43,16 +47,38 @@ A production-level Personal Finance Tracker application with advanced features, 
 - Search by note or category
 - Filter by category
 - Edit and delete transactions
+- Modern card-based layout
 
 ### 🎨 Modern UI/UX
 
-- Clean, SaaS-style design (Notion/Linear inspired)
-- Dark/Light mode support
+- Clean, modern SaaS-style design
+- Glassmorphism effects throughout
+- Gradient color schemes (blue to indigo)
+- Dark/Light mode support with theme toggle
 - Smooth transitions and hover effects
-- Fully responsive design
+- Fully responsive design (mobile-first)
 - Toast notifications
 - Loading skeletons
 - Empty states
+- Custom modals and confirmations
+
+### 🧭 Navigation
+
+- Fixed glassmorphism navbar
+- Mobile hamburger menu
+- Theme toggle button
+- Notifications bell with indicator
+- Profile dropdown menu
+- Active route indicators
+
+### 📋 Footer
+
+- Professional footer with newsletter signup
+- Contact information section
+- Quick links and resources
+- Social media links
+- Back to top button
+- Responsive 5-column layout
 
 ## 🏗️ Tech Stack
 
@@ -64,15 +90,15 @@ A production-level Personal Finance Tracker application with advanced features, 
 - **Recharts** for analytics charts
 - **Lucide React** for icons
 - **React Hot Toast** for notifications
+- **date-fns** for date utilities
 
 ### Backend
 
 - **Node.js** with Express.js
 - **MongoDB** (Atlas or local)
 - **Mongoose** for ODM
-- **date-fns** for date utilities
-- **Axios** for API calls
-- **MongoDB** with **Mongoose**
+- **bcryptjs** for password hashing
+- **jsonwebtoken** for JWT authentication
 - **CORS** enabled
 - **dotenv** for environment variables
 
@@ -84,36 +110,37 @@ BudgetFriendly/
 │   ├── config/
 │   │   └── database.js          # MongoDB connection
 │   ├── controllers/
-│   │   ├── planController.js    # Plan logic
-│   │   ├── subjectController.js # Subject logic
-│   │   └── userController.js    # User logic
+│   │   ├── transactionController.js  # Transaction logic
+│   │   ├── budgetController.js       # Budget logic
+│   │   └── userController.js         # User logic
 │   ├── models/
-│   │   ├── User.js              # User schema
-│   │   ├── Subject.js           # Subject schema
-│   │   ├── StudyPlan.js         # Study plan schema
-│   │   └── StudySession.js      # Study session schema
+│   │   ├── Transaction.js       # Transaction schema
+│   │   ├── Budget.js            # Budget schema
+│   │   └── User.js              # User schema
 │   ├── routes/
-│   │   ├── planRoutes.js        # Plan endpoints
-│   │   ├── subjectRoutes.js     # Subject endpoints
+│   │   ├── transactionRoutes.js # Transaction endpoints
+│   │   ├── budgetRoutes.js      # Budget endpoints
 │   │   └── userRoutes.js        # User endpoints
+│   ├── api/
+│   │   └── index.js             # Serverless entry point
 │   ├── server.js                # Express server
+│   ├── vercel.json              # Vercel configuration
 │   ├── package.json
 │   └── .env.example
-│
+
 └── frontend/
     ├── components/
+    │   ├── Navbar.js            # Navigation component
+    │   ├── Footer.js            # Footer component
+    │   ├── BalanceCard.js       # Balance display card
+    │   ├── TransactionForm.js   # Add transaction form
+    │   ├── TransactionList.js   # Transaction list
+    │   ├── BudgetCard.js        # Budget management
     │   ├── AnalyticsChart.js    # Charts component
-    │   ├── LoadingSkeleton.js   # Loading states
-    │   ├── PlanHistory.js       # History component
-    │   ├── ProgressBar.js       # Progress indicator
-    │   ├── SmartSuggestion.js   # AI suggestion
-    │   ├── StreakCard.js        # Streak display
-    │   ├── SubjectManager.js    # Subject CRUD
-    │   └── TaskCard.js          # Task component
+    │   ├── ConfirmModal.js      # Confirmation modal
+    │   └── LoadingSkeleton.js   # Loading states
     ├── hooks/
-    │   └── useTheme.js          # Theme toggle
-    ├── lib/
-    │   └── utils.js             # Utility functions
+    │   └── useTheme.js          # Theme toggle hook
     ├── pages/
     │   ├── _app.js              # App wrapper
     │   ├── _document.js         # HTML structure
@@ -127,7 +154,7 @@ BudgetFriendly/
     ├── package.json
     ├── tailwind.config.js
     ├── next.config.js
-    └── .env.example
+    └── .env.local
 ```
 
 ## 🚀 Getting Started
@@ -155,41 +182,13 @@ npm install
 3. Create a `.env` file:
 
 ```bash
-cp .env.example .env
-```
-
-4. Update `.env` with your MongoDB URI:
-
-**Option A: MongoDB Atlas (Recommended - Free)**
-
-1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create a free account
-2. Create a new cluster (free tier)
-3. Create a database user with username and password
-4. Click "Connect" → "Connect your application"
-5. Copy the connection string and replace `username:password` with your credentials
-6. Update `.env`:
-
-```
 PORT=5000
-MONGODB_URI=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/smart-study-planner?retryWrites=true&w=majority
+MONGODB_URI=mongodb://localhost:27017/finance-tracker
 JWT_SECRET=your-secret-key-change-in-production
 NODE_ENV=development
 ```
 
-**Option B: Local MongoDB**
-
-1. Install MongoDB locally on your machine
-2. Start MongoDB service
-3. Update `.env`:
-
-```
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/smart-study-planner
-JWT_SECRET=your-secret-key-change-in-production
-NODE_ENV=development
-```
-
-5. Start the backend server:
+4. Start the backend server:
 
 ```bash
 npm run dev
@@ -227,22 +226,19 @@ The frontend will run on `http://localhost:3000`
 
 ## 📡 API Endpoints
 
-### Plans
+### Transactions
 
-- `POST /api/plans/generate-plan` - Generate a new study plan
-- `GET /api/plans/today-plan/:userId` - Get today's plan
-- `POST /api/plans/complete-task/:planId/:taskId` - Complete a task
-- `GET /api/plans/analytics/:userId` - Get analytics data
-- `GET /api/plans/streak/:userId` - Get user streak
-- `GET /api/plans/:userId` - Get all plans
-- `GET /api/plans/:userId/:date` - Get plan by date
-- `GET /api/plans/smart-suggestion/:userId` - Get smart suggestion
+- `POST /api/transactions` - Create a transaction
+- `GET /api/transactions/:userId` - Get all transactions
+- `PUT /api/transactions/:id` - Update a transaction
+- `DELETE /api/transactions/:id` - Delete a transaction
+- `GET /api/transactions/analytics/:userId` - Get analytics data
+- `GET /api/transactions/dashboard/:userId` - Get dashboard summary
 
-### Subjects
+### Budget
 
-- `GET /api/subjects/:userId` - Get all subjects
-- `POST /api/subjects` - Create a subject
-- `DELETE /api/subjects/:id` - Delete a subject
+- `POST /api/budget` - Set monthly budget
+- `GET /api/budget/:userId/:month` - Get budget for a month
 
 ### Users
 
@@ -252,53 +248,12 @@ The frontend will run on `http://localhost:3000`
 ## 🎯 Usage
 
 1. **Create an Account**: Fill in your name, email, and password on the welcome screen
-2. **Add Subjects**: Use the Subjects panel to add your study subjects with colors
-3. **Generate Plan**: Click "Generate Plan" to create today's study schedule
-4. **Complete Tasks**: Check off tasks as you complete them
-5. **Track Progress**: View your streak, completion rate, and analytics
-6. **Get Suggestions**: Use the "Smart Suggestion" feature to know what to study next
-
-## 🎨 Features in Detail
-
-### Daily Streak
-
-- Automatically tracks consecutive study days
-- Resets if you miss a day
-- Displayed prominently on the dashboard
-
-### Smart Suggestion
-
-- Analyzes incomplete tasks
-- Prioritizes by importance (high > medium > low)
-- Shows subject and duration
-
-### Analytics
-
-- Daily study time bar chart
-- Subject distribution pie chart
-- Overall completion rate progress bar
-- Filterable by 7, 14, or 30 days
-
-### History
-
-- View all past study plans
-- See completion statistics per plan
-- Organized by date
-
-## 🔧 Configuration
-
-### MongoDB Atlas (Cloud)
-
-1. Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Create a new cluster
-3. Get your connection string
-4. Update `MONGODB_URI` in backend `.env` file
-
-### Local MongoDB
-
-1. Install MongoDB locally
-2. Start MongoDB service
-3. Use default connection string: `mongodb://localhost:27017/smart-study-planner`
+2. **Add Transactions**: Use the transaction form to add income or expenses
+3. **Set Budget**: Set your monthly budget to track spending
+4. **View Analytics**: Explore spending patterns with charts and insights
+5. **Track History**: View and manage all your past transactions
+6. **Toggle Theme**: Switch between light and dark mode
+7. **Mobile Access**: Fully responsive for mobile devices
 
 ## 📝 Database Schema
 
@@ -309,82 +264,87 @@ The frontend will run on `http://localhost:3000`
   name: String,
   email: String (unique),
   password: String (hashed),
-  streak: Number (default: 0),
-  lastStudyDate: Date,
   createdAt: Date
 }
 ```
 
-### Subject
-
-```javascript
-{
-  name: String,
-  color: String (default: '#3B82F6'),
-  userId: ObjectId (ref: User),
-  createdAt: Date
-}
-```
-
-### StudyPlan
+### Transaction
 
 ```javascript
 {
   userId: ObjectId (ref: User),
+  type: String (income/expense),
+  amount: Number,
+  category: String,
+  note: String,
   date: Date,
-  tasks: [{
-    subjectId: ObjectId (ref: Subject),
-    title: String,
-    duration: Number (minutes),
-    completed: Boolean,
-    priority: String (low/medium/high)
-  }],
-  totalDuration: Number,
-  completionRate: Number,
   createdAt: Date
 }
 ```
 
-### StudySession
+### Budget
 
 ```javascript
 {
   userId: ObjectId (ref: User),
-  subjectId: ObjectId (ref: Subject),
-  taskId: ObjectId,
-  duration: Number (minutes),
-  date: Date,
-  completed: Boolean,
+  month: String (YYYY-MM),
+  monthlyBudget: Number,
+  spent: Number,
   createdAt: Date
 }
 ```
 
 ## 🚀 Deployment
 
-### Backend (e.g., Render, Railway, Heroku)
+### Backend (Vercel)
 
-1. Push backend code to your repository
-2. Connect to deployment platform
-3. Set environment variables
+1. Push backend code to GitHub
+2. Import project to Vercel
+3. Set environment variables (MONGODB_URI, JWT_SECRET)
 4. Deploy
 
-### Frontend (e.g., Vercel, Netlify)
+### Frontend (Vercel)
 
-1. Push frontend code to your repository
-2. Connect to deployment platform
+1. Push frontend code to GitHub
+2. Import project to Vercel
 3. Set `NEXT_PUBLIC_API_URL` to your deployed backend URL
 4. Deploy
+
+## 🎨 UI Features
+
+### Modern Design
+
+- Gradient backgrounds (blue to indigo)
+- Glassmorphism effects
+- Smooth animations and transitions
+- Hover effects on interactive elements
+- Shadow depth for cards and buttons
+
+### Responsive Design
+
+- Mobile-first approach
+- Hamburger menu for mobile navigation
+- Stacked layouts on small screens
+- Touch-friendly buttons and inputs
+- Responsive typography
+
+### Dark Mode
+
+- Seamless theme switching
+- Persistent theme preference
+- Optimized colors for both modes
 
 ## 🤝 Contributing
 
 This is a portfolio-ready project. Feel free to extend it with:
 
 - User authentication with JWT
-- Email notifications
-- Calendar integration
-- Pomodoro timer
-- Study reminders
-- Social features
+- Email notifications for budget alerts
+- Export reports (PDF, CSV)
+- Recurring transactions
+- Multiple currencies support
+- Bank account integration
+- Investment tracking
 
 ## 📄 License
 
