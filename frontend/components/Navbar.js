@@ -77,6 +77,25 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-2"></div>
+            {resourceItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPath === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-xl font-medium text-sm transition-all duration-300 ${
+                    isActive
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
+                      : "text-gray-500 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-800/50 hover:text-blue-600 dark:hover:text-blue-400"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{item.name}</span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right Actions */}
