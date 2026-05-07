@@ -186,6 +186,30 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+              <p className="px-4 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Resources
+              </p>
+              {resourceItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPath === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 ${
+                      isActive
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30"
+                        : "text-gray-500 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-800/50"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
