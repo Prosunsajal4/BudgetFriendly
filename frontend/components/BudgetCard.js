@@ -46,7 +46,8 @@ export default function BudgetCard({ userId }) {
     }
   };
 
-  const percentageUsed = budget ? parseFloat(budget.percentageUsed) : 0;
+  const percentageUsed =
+    budget && budget.percentageUsed ? parseFloat(budget.percentageUsed) : 0;
   const isOverBudget = percentageUsed > 100;
   const isNearLimit = percentageUsed > 80 && percentageUsed <= 100;
 
@@ -128,7 +129,8 @@ export default function BudgetCard({ userId }) {
             Spent
           </span>
           <span className="text-sm font-bold text-gray-900 dark:text-white">
-            ${budget.spent.toFixed(2)} / ${budget.monthlyBudget.toFixed(2)}
+            ${(budget.spent || 0).toFixed(2)} / $
+            {(budget.monthlyBudget || 0).toFixed(2)}
           </span>
         </div>
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
@@ -154,12 +156,12 @@ export default function BudgetCard({ userId }) {
         </span>
         <span
           className={`text-2xl font-bold ${
-            budget.remaining >= 0
+            (budget.remaining || 0) >= 0
               ? "bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent"
               : "bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent"
           }`}
         >
-          ${budget.remaining.toFixed(2)}
+          ${(budget.remaining || 0).toFixed(2)}
         </span>
       </div>
 
@@ -170,7 +172,7 @@ export default function BudgetCard({ userId }) {
           </div>
           <p className="text-sm font-medium text-red-700 dark:text-red-300">
             You've exceeded your budget by $
-            {Math.abs(budget.remaining).toFixed(2)}!
+            {Math.abs(budget.remaining || 0).toFixed(2)}!
           </p>
         </div>
       )}

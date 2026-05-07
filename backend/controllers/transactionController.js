@@ -55,7 +55,10 @@ const getTransactions = async (req, res) => {
     const { userId } = req.params;
     const { category, startDate, endDate, search } = req.query;
 
-    let query = { userId };
+    // Convert userId string to ObjectId
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    let query = { userId: userObjectId };
 
     if (category) {
       query.category = category;
@@ -188,6 +191,9 @@ const getAnalytics = async (req, res) => {
     const { userId } = req.params;
     const { period } = req.query; // 'week' or 'month'
 
+    // Convert userId string to ObjectId
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
     let startDate, endDate;
     const now = new Date();
 
@@ -200,7 +206,7 @@ const getAnalytics = async (req, res) => {
     }
 
     const transactions = await Transaction.find({
-      userId,
+      userId: userObjectId,
       date: { $gte: startDate, $lte: endDate },
     });
 
@@ -251,7 +257,7 @@ const getAnalytics = async (req, res) => {
     const previousMonthEnd = endOfMonth(subMonths(now, 1));
 
     const previousTransactions = await Transaction.find({
-      userId,
+      userId: userObjectId,
       date: { $gte: previousMonthStart, $lte: previousMonthEnd },
     });
 
@@ -306,12 +312,15 @@ const getDashboard = async (req, res) => {
   try {
     const { userId } = req.params;
 
+    // Convert userId string to ObjectId
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
     const now = new Date();
     const monthStart = startOfMonth(now);
     const monthEnd = endOfMonth(now);
 
     const transactions = await Transaction.find({
-      userId,
+      userId: userObjectId,
       date: { $gte: monthStart, $lte: monthEnd },
     });
 
@@ -327,7 +336,7 @@ const getDashboard = async (req, res) => {
 
     // Get budget
     const month = now.toISOString().slice(0, 7);
-    const budget = await Budget.findOne({ userId, month });
+    const budget = await Budget.findOne({ userId: userObjectId, month });
 
     res.json({
       success: true,

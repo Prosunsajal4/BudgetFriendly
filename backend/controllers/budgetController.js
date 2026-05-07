@@ -1,14 +1,18 @@
-const Budget = require('../models/Budget');
+const Budget = require("../models/Budget");
+const mongoose = require("mongoose");
 
 // Set or update monthly budget
 const setBudget = async (req, res) => {
   try {
     const { userId, monthlyBudget, month } = req.body;
 
+    // Convert userId string to ObjectId
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
     const budget = await Budget.findOneAndUpdate(
-      { userId, month },
+      { userId: userObjectId, month },
       { monthlyBudget },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
 
     res.status(201).json({
@@ -28,7 +32,10 @@ const getBudget = async (req, res) => {
   try {
     const { userId, month } = req.params;
 
-    const budget = await Budget.findOne({ userId, month });
+    // Convert userId string to ObjectId
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    const budget = await Budget.findOne({ userId: userObjectId, month });
 
     if (!budget) {
       return res.json({
@@ -43,9 +50,10 @@ const getBudget = async (req, res) => {
     }
 
     const remaining = budget.monthlyBudget - budget.spent;
-    const percentageUsed = budget.monthlyBudget > 0 
-      ? (budget.spent / budget.monthlyBudget) * 100 
-      : 0;
+    const percentageUsed =
+      budget.monthlyBudget > 0
+        ? (budget.spent / budget.monthlyBudget) * 100
+        : 0;
 
     res.json({
       success: true,

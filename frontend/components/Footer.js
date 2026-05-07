@@ -1,6 +1,7 @@
 import {
   Wallet,
   Github,
+  Linkedin,
   Twitter,
   Heart,
   ArrowUp,
@@ -10,6 +11,7 @@ import {
   FileText,
   Shield,
   HelpCircle,
+  Globe,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -55,19 +57,19 @@ export default function Footer() {
                 <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                   <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                <span className="text-sm">support@financetracker.com</span>
+                <span className="text-sm">prosun sajal123@gmail.com</span>
               </div>
               <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
                 <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                   <Phone className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                <span className="text-sm">+1 (555) 123-4567</span>
+                <span className="text-sm">+8801911572117</span>
               </div>
               <div className="flex items-center gap-3 text-gray-600 dark:text-gray-400">
                 <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30">
                   <MapPin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
-                <span className="text-sm">San Francisco, CA</span>
+                <span className="text-sm">Khulna, Bangladesh</span>
               </div>
             </div>
           </div>
@@ -175,16 +177,31 @@ export default function Footer() {
             {/* Social Links */}
             <div className="flex gap-3 mt-6">
               <a
-                href="#"
+                href="https://github.com/prosunsajal4"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                title="GitHub"
               >
                 <Github className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href="https://linkedin.com/in/prosun-mukherjee"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                title="LinkedIn"
               >
-                <Twitter className="w-5 h-5" />
+                <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href="https://prosun-portfolio.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 hover:scale-110"
+                title="Portfolio"
+              >
+                <Globe className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -193,11 +210,19 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            © 2024 Finance Tracker. All rights reserved.
+            &copy; 2024 Finance Tracker. All rights reserved.
           </p>
           <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm">
-            Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" />{" "}
-            for your financial wellness
+            Built with <Heart className="w-4 h-4 text-red-500 fill-red-500" />{" "}
+            by{" "}
+            <a
+              href="https://github.com/prosunsajal4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+            >
+              Prosun Mukherjee
+            </a>
           </div>
 
           {/* Back to Top Button */}

@@ -49,6 +49,14 @@ A modern, production-level Personal Finance Tracker application with advanced fe
 - Edit and delete transactions
 - Modern card-based layout
 
+### 🔐 User Authentication
+
+- Secure user registration and login
+- Password hashing with bcrypt
+- Logout functionality to clear session
+- LocalStorage-based session management
+- Proper data isolation between users
+
 ### 🎨 Modern UI/UX
 
 - Clean, modern SaaS-style design
@@ -296,6 +304,12 @@ The frontend will run on `http://localhost:3000`
 
 ## 🚀 Deployment
 
+### Live Application
+
+- **Frontend**: https://financer-phi.vercel.app
+- **Backend API**: https://budgetfriendly.vercel.app/api
+- **Status**: ✅ Production
+
 ### Backend (Vercel)
 
 1. Push backend code to GitHub
@@ -309,6 +323,22 @@ The frontend will run on `http://localhost:3000`
 2. Import project to Vercel
 3. Set `NEXT_PUBLIC_API_URL` to your deployed backend URL
 4. Deploy
+
+## 🐛 Recent Fixes & Updates
+
+### Latest Updates (May 2026)
+
+- **Fixed Data Isolation**: Added proper ObjectId conversion in all backend queries to ensure users only see their own data
+- **Added Logout Functionality**: Users can now logout to clear their session and login with a different account
+- **Fixed BudgetCard Error**: Resolved `toFixed()` error when budget data is missing or undefined
+- **Updated CORS Configuration**: Configured CORS to allow frontend URL for proper API communication
+- **Updated Developer Information**: Added developer contact details and social media links in footer
+- **Mobile Responsiveness**: All components are now fully responsive for mobile devices
+- **UI Modernization**: Applied glassmorphism effects, gradients, and modern styling throughout
+
+### Known Issues
+
+- None currently
 
 ## 🎨 UI Features
 
@@ -350,9 +380,23 @@ This is a portfolio-ready project. Feel free to extend it with:
 
 ISC
 
-## 👨‍💻 Author
+## 👨‍💻 Developer
 
-Built as a production-level SaaS application for portfolio demonstration.
+**Prosun Mukherjee** - Frontend Developer
+
+- 📧 prosunsajal123@gmail.com
+- 📱 +8801911572117
+- 📍 Khulna, Bangladesh
+- 💼 [GitHub](https://github.com/prosunsajal4)
+- 💼 [LinkedIn](https://linkedin.com/in/prosun-mukherjee)
+- 🌐 [Portfolio](https://prosun-portfolio.vercel.app)
+
+**Skills:**
+
+- Frontend: React.js, Next.js, Tailwind CSS, HTML, CSS
+- Backend: Node.js, Express.js, REST APIs, JWT, Firebase Authentication
+- Database: MongoDB, Firebase
+- Tools: Git, GitHub, Postman, Vercel
 
 ---
 

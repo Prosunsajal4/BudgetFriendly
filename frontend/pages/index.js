@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { RefreshCw, BarChart3, History, Search } from "lucide-react";
+import { RefreshCw, BarChart3, History, Search, LogOut } from "lucide-react";
 import { api } from "../services/api";
 import toast from "react-hot-toast";
 import Navbar from "../components/Navbar";
@@ -81,6 +81,15 @@ export default function Home() {
     setRefreshing(true);
     await fetchData(userId);
     setRefreshing(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    setUserId("");
+    setDashboard(null);
+    setTransactions([]);
+    setShowSetup(true);
+    toast.success("Logged out successfully");
   };
 
   const filteredTransactions = transactions.filter((t) => {
@@ -189,16 +198,25 @@ export default function Home() {
               })}
             </p>
           </div>
-          <button
-            onClick={handleRefresh}
-            disabled={refreshing}
-            className="btn-secondary flex items-center gap-2"
-          >
-            <RefreshCw
-              className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
-            />
-            Refresh
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className="btn-secondary flex items-center gap-2"
+            >
+              <RefreshCw
+                className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
+              />
+              Refresh
+            </button>
+            <button
+              onClick={handleLogout}
+              className="btn-secondary flex items-center gap-2 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </button>
+          </div>
         </div>
 
         {/* Balance Cards */}
