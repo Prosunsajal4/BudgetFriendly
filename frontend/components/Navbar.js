@@ -10,6 +10,9 @@ import {
   Sun,
   Bell,
   ChevronDown,
+  HelpCircle,
+  Shield,
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,6 +35,12 @@ export default function Navbar() {
     { name: "Dashboard", href: "/", icon: Wallet },
     { name: "Analytics", href: "/analytics", icon: BarChart3 },
     { name: "History", href: "/history", icon: History },
+  ];
+
+  const resourceItems = [
+    { name: "FAQ", href: "/faq", icon: HelpCircle },
+    { name: "Privacy", href: "/privacy", icon: Shield },
+    { name: "Terms", href: "/terms", icon: FileText },
   ];
 
   return (
