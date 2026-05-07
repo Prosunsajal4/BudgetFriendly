@@ -115,7 +115,9 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="https://github.com/prosunsajal4/BudgetFriendly#readme"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors flex items-center gap-2"
                 >
                   <FileText className="w-4 h-4" />
@@ -124,7 +126,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/faq"
                   className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors flex items-center gap-2"
                 >
                   <HelpCircle className="w-4 h-4" />
@@ -133,7 +135,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/privacy"
                   className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors flex items-center gap-2"
                 >
                   <Shield className="w-4 h-4" />
@@ -142,7 +144,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/terms"
                   className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-sm transition-colors flex items-center gap-2"
                 >
                   <FileText className="w-4 h-4" />
