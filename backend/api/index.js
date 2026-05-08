@@ -23,12 +23,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/api/transactions", transactionRoutes);
-app.use("/api/budget", budgetRoutes);
-app.use("/api/users", userRoutes);
+app.use("/transactions", transactionRoutes);
+app.use("/budget", budgetRoutes);
+app.use("/users", userRoutes);
 
 // Health check
-app.get("/api/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.json({ status: "ok", message: "Server is running" });
 });
 
