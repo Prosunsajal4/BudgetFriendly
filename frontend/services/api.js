@@ -1,4 +1,17 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_URL = "https://budgetfriendly.vercel.app/api";
+
+console.log("API URL:", API_URL);
+
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    const error = await response.text();
+    console.error("API Error:", response.status, error);
+    throw new Error(
+      `HTTP error! status: ${response.status}, message: ${error}`,
+    );
+  }
+  return response.json();
+};
 
 export const api = {
   // Transactions
@@ -8,7 +21,7 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return handleResponse(response);
   },
 
   getTransactions: async (userId, filters = {}) => {
@@ -16,7 +29,7 @@ export const api = {
     const response = await fetch(
       `${API_URL}/transactions/${userId}${params ? "?" + params : ""}`,
     );
-    return response.json();
+    return handleResponse(response);
   },
 
   updateTransaction: async (id, data) => {
@@ -25,26 +38,26 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return handleResponse(response);
   },
 
   deleteTransaction: async (id) => {
     const response = await fetch(`${API_URL}/transactions/${id}`, {
       method: "DELETE",
     });
-    return response.json();
+    return handleResponse(response);
   },
 
   getAnalytics: async (userId, period = "month") => {
     const response = await fetch(
       `${API_URL}/transactions/analytics/${userId}?period=${period}`,
     );
-    return response.json();
+    return handleResponse(response);
   },
 
   getDashboard: async (userId) => {
     const response = await fetch(`${API_URL}/transactions/dashboard/${userId}`);
-    return response.json();
+    return handleResponse(response);
   },
 
   // Budget
@@ -54,12 +67,12 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return handleResponse(response);
   },
 
   getBudget: async (userId, month) => {
     const response = await fetch(`${API_URL}/budget/${userId}/${month}`);
-    return response.json();
+    return handleResponse(response);
   },
 
   // Users
@@ -69,11 +82,11 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    return response.json();
+    return handleResponse(response);
   },
 
   getUser: async (userId) => {
     const response = await fetch(`${API_URL}/users/${userId}`);
-    return response.json();
+    return handleResponse(response);
   },
 };
